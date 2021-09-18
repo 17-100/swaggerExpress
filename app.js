@@ -3,6 +3,11 @@ const app = express();
 const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUI = require('swagger-ui-express');
 
+//Data Parser - used to parse post data
+var bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
 //Configuring Swagger
 const swaggerOptions = {
 	swaggerDefinition: {
@@ -42,6 +47,27 @@ app.get('/books', (req, res) => {
 			publisher: 'Scholastic'
 		}
 	]);
+});
+
+// Route 3 - Post route
+/**
+ * @swagger
+ * /book:
+ *      post:
+ *          description: Get one book
+ *          parameters:
+ *          -   name: title
+ *              description: Book title
+ *              in: body
+ *              required: true
+ *              type: string
+ *          responses:
+ *              200:
+ *                  description: Success
+ */
+app.post('/book', (req, res) => {
+    const title = req.body.title;
+    res.send({title});
 });
 
 var PORT = 3000;
